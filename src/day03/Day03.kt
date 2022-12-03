@@ -10,7 +10,7 @@ fun main() {
             val half = s.length / 2
             val parts = s.chunked(half)
             for (c in parts[0]) {
-                if (parts[1].contains(c)) {
+                if (parts[1].toSet().contains(c)) {
                     if (c.isLowerCase()) {
                         totalSum += (c.code - 96)
                         break
@@ -33,8 +33,8 @@ fun main() {
             val s3 = input[index + 2]
             var found = false
             while (!found) {
-                for (c in s1) {
-                    if (s2.contains(c) && s3.contains(c)) {
+                for (c in s1.toSet()) {
+                    if (s2.toSet().contains(c) && s3.toSet().contains(c)) {
                         totalSum += if (c.isLowerCase()) {
                             (c.code - 96)
                         } else {
