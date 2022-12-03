@@ -25,7 +25,32 @@ fun main() {
     }
 
     fun part2(input: List<String>): Int {
-        return 0
+        var totalSum = 0
+        var index = 0
+        while (index < input.size) {
+            val s1 = input[index]
+            val s2 = input[index + 1]
+            val s3 = input[index + 2]
+            var found = false
+            while (!found) {
+                for (c in s1) {
+                    if (s2.contains(c) && s3.contains(c)) {
+                        totalSum += if (c.isLowerCase()) {
+                            (c.code - 96)
+                        } else {
+                            (c.code - 38)
+                        }
+                        found = true
+                        break
+                    }
+                }
+                if (found)
+                    break
+            }
+            index += 3
+        }
+
+        return totalSum
     }
 
     val testInput = "vJrwpWtwJgWrhcsFMMfFFhFp\n" +
@@ -36,6 +61,7 @@ fun main() {
             "CrZsJsPPZsGzwwsLwLmpwMDw"
 
     println(part1(testInput.split("\n")))
+    println(part2(testInput.split("\n")))
 
     val input = readInput("03")
     println(part1(input))
