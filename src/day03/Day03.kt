@@ -9,7 +9,7 @@ fun main() {
         for (s in input) {
             val half = s.length / 2
             val parts = s.chunked(half)
-            for (c in parts[0]) {
+            for (c in parts[0].toSet()) {
                 if (parts[1].toSet().contains(c)) {
                     if (c.isLowerCase()) {
                         totalSum += (c.code - 96)
