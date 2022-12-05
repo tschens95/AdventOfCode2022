@@ -39,15 +39,6 @@ fun main() {
                 column+=1
             }
             rowCount += 1
-//            val crate1 = s.substring(1..2)
-//            val crate2 = s.substring(5..6)
-//            val crate3 = s.substring(9..10)
-//            val crate4 = s.substring(13..14)
-//            val crate5 = s.substring(17..18)
-//            val crate6 = s.substring(21..22)
-//            val crate7 = s.substring(25..26)
-//            val crate8 = s.substring(29..30)
-//            val crate9 = s.substring(33..34)
         }
 
         return 0
