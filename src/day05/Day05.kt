@@ -28,7 +28,9 @@ fun main() {
         val lines = crates.split("\n")
         val length = lines[lines.size -1].split("   ").map { it.trim().toInt() }.last()
         initMap(length)
-        for (s in lines) {
+        var rowCount = 0
+        while (rowCount < lines.size - 1) {
+            val s = lines[rowCount]
             var i = 0
             var column = 0
             while (column < length) {
@@ -36,6 +38,7 @@ fun main() {
                 i+=4
                 column+=1
             }
+            rowCount += 1
 //            val crate1 = s.substring(1..2)
 //            val crate2 = s.substring(5..6)
 //            val crate3 = s.substring(9..10)
