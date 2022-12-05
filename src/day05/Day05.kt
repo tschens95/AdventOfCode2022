@@ -4,7 +4,13 @@ import readText
 
 fun main() {
 
-    val crateMap = mutableMapOf<Int, List<String>>()
+    val crateMap = mutableMapOf<Int, MutableList<String>>()
+
+    fun initMap(length: Int) {
+        for(i in 0 until length) {
+            crateMap[i] = mutableListOf()
+        }
+    }
 
     // the list contains (crates, rearrangement commands), the last line of crates are the numbers of the crate
     fun part1(input: List<String>) : Int {
@@ -20,9 +26,25 @@ fun main() {
         }
 
         val lines = crates.split("\n")
-        val length = lines[0].length
+        val length = lines[lines.size -1].split("   ").map { it.trim().toInt() }.last()
+        initMap(length)
         for (s in lines) {
-
+            var i = 0
+            var column = 0
+            while (column < length) {
+                crateMap[column]!!.add(s.substring(i+1,i+2))
+                i+=4
+                column+=1
+            }
+//            val crate1 = s.substring(1..2)
+//            val crate2 = s.substring(5..6)
+//            val crate3 = s.substring(9..10)
+//            val crate4 = s.substring(13..14)
+//            val crate5 = s.substring(17..18)
+//            val crate6 = s.substring(21..22)
+//            val crate7 = s.substring(25..26)
+//            val crate8 = s.substring(29..30)
+//            val crate9 = s.substring(33..34)
         }
 
         return 0
