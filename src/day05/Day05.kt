@@ -18,7 +18,6 @@ fun main() {
         val cratesList = cratesFrom.subList(x - command.number, x)
         if (!reversePart2) cratesList.reverse()
         crateMap[command.crateFrom - 1] = cratesFrom.subList(0, x - command.number)
-
         crateMap[command.crateTo - 1] = crateMap[command.crateTo - 1]!!.plus(cratesList).toMutableList()
     }
 
