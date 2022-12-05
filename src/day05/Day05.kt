@@ -12,8 +12,18 @@ fun main() {
         }
     }
 
+    fun moveCrate(command: Command, reversePart2: Boolean) {
+        val cratesFrom = crateMap[command.crateFrom - 1] ?: throw RuntimeException("null")
+        val x = cratesFrom.size
+        val cratesList = cratesFrom.subList(x - command.number, x)
+        if (!reversePart2) cratesList.reverse()
+        crateMap[command.crateFrom - 1] = cratesFrom.subList(0, x - command.number)
+
+        crateMap[command.crateTo - 1] = crateMap[command.crateTo - 1]!!.plus(cratesList).toMutableList()
+    }
+
     // the list contains (crates, rearrangement commands), the last line of crates are the numbers of the crate
-    fun part1(input: List<String>) : Int {
+    fun part1(input: List<String>) : String {
 
         val crates = input[0]
         val commands = input[1]
@@ -21,7 +31,7 @@ fun main() {
             val parts = it.split(" ")
             val number = parts[1].toInt()
             val from = parts[3].toInt()
-            val to = parts[5].toInt()
+            val to = parts[5].trim().toInt()
             Command(number, from, to)
         }
 
@@ -34,18 +44,71 @@ fun main() {
             var i = 0
             var column = 0
             while (column < length) {
-                crateMap[column]!!.add(s.substring(i+1,i+2))
+                val element = s.substring(i+1,i+2)
+                if (element.isNotBlank()) {
+                    crateMap[column]!!.add(element)
+                }
                 i+=4
                 column+=1
             }
             rowCount += 1
         }
+        for (s in crateMap.values) {
+            s.reverse()
+        }
+        for(c in commandList) {
+            moveCrate(c, false)
+        }
+        var resultString = ""
+        for (a in crateMap.values) {
+            resultString += a.last()
+        }
 
-        return 0
+        return resultString
     }
 
-    fun part2(input: List<String>) : Int {
-        return 0
+    fun part2(input: List<String>) : String {
+
+        val crates = input[0]
+        val commands = input[1]
+        val commandList = commands.split("\n").map {
+            val parts = it.split(" ")
+            val number = parts[1].toInt()
+            val from = parts[3].toInt()
+            val to = parts[5].trim().toInt()
+            Command(number, from, to)
+        }
+
+        val lines = crates.split("\n")
+        val length = lines[lines.size -1].split("   ").map { it.trim().toInt() }.last()
+        initMap(length)
+        var rowCount = 0
+        while (rowCount < lines.size - 1) {
+            val s = lines[rowCount]
+            var i = 0
+            var column = 0
+            while (column < length) {
+                val element = s.substring(i+1,i+2)
+                if (element.isNotBlank()) {
+                    crateMap[column]!!.add(element)
+                }
+                i+=4
+                column+=1
+            }
+            rowCount += 1
+        }
+        for (s in crateMap.values) {
+            s.reverse()
+        }
+        for(c in commandList) {
+            moveCrate(c, true)
+        }
+        var resultString = ""
+        for (a in crateMap.values) {
+            resultString += a.last()
+        }
+
+        return resultString
     }
 
     val testInput =
@@ -62,8 +125,10 @@ fun main() {
     println(part1(testInput.split("\n\n")))
     println(part2(testInput.split("\n\n")))
 
-    val input = readText("05").split("\n\n")
+    val input = readText("05").split("\r\n\r\n")
+    println("Part1:")
     println(part1(input))
+    println("Part2:")
     println(part2(input))
 }
 
