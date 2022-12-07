@@ -4,11 +4,15 @@ import readInput
 
 fun main() {
 
-    var mapDirectoryToSize = mapOf<String, Int>()
+    val totalSize = 70000000
+    val requiredSpace = 30000000
+    var mapDirectoryToSizeLimited = listOf<Int>()
+    var mapDirectoryToSize = listOf<Int>()
+    val root = Directory("/")
 
     fun findDirectoriesWithSize(iterateDirectory: Directory, maxSize: Int) {
         if (iterateDirectory.getDirectorySize() <= maxSize) {
-            mapDirectoryToSize = mapDirectoryToSize.plus(iterateDirectory.name to iterateDirectory.getDirectorySize())
+            mapDirectoryToSizeLimited = mapDirectoryToSizeLimited.plus(iterateDirectory.getDirectorySize())
         }
         if (iterateDirectory.subDirectories.isNotEmpty()) {
             for (d in iterateDirectory.subDirectories) {
@@ -17,8 +21,16 @@ fun main() {
         }
     }
 
-    fun solvePuzzle(input: List<String>, maxSize: Int): Int {
-        val root = Directory("/")
+    fun fillMapDirectoryToSize(iterateDirectory: Directory) {
+        mapDirectoryToSize = mapDirectoryToSize.plus(iterateDirectory.getDirectorySize())
+        if (iterateDirectory.subDirectories.isNotEmpty()) {
+            for (d in iterateDirectory.subDirectories) {
+                fillMapDirectoryToSize(d)
+            }
+        }
+    }
+
+    fun solvePuzzle(input: List<String>) {
         var currentDirectory = root
         val iterator = input.iterator()
         while (iterator.hasNext()) {
@@ -50,16 +62,20 @@ fun main() {
                 }
             }
         }
-        findDirectoriesWithSize(root, maxSize)
-        return mapDirectoryToSize.values.sum()
     }
 
     fun part1(input: List<String>): Int {
-        return solvePuzzle(input,100000)
+        solvePuzzle(input)
+        findDirectoriesWithSize(root, 100000)
+        return mapDirectoryToSizeLimited.sum()
     }
 
     fun part2(input: List<String>): Int {
-        return solvePuzzle(input, 100000)
+        solvePuzzle(input)
+        fillMapDirectoryToSize(root)
+        mapDirectoryToSize = mapDirectoryToSize.sorted()
+        val requiredFreeSpace = requiredSpace - (totalSize - root.getDirectorySize())
+        return mapDirectoryToSize.find { it >= requiredFreeSpace } ?: throw RuntimeException("ERROR 3")
     }
 
     val testInput =
@@ -87,11 +103,12 @@ fun main() {
             "5626152 d.ext\n" +
             "7214296 k"
 
-    // println(part1(testInput.split("\n")))
+//    println(part1(testInput.split("\n")))
+//    println(part2(testInput.split("\n")))
 
     val input = readInput("07")
     println("Part1:")
     println(part1(input))
-    //println("Part2:")
-    //println(part2(input))
+    println("Part2:")
+    println(part2(input))
 }

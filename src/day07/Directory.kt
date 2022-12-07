@@ -12,7 +12,9 @@ class Directory(val name: String) {
     }
 
     fun getDirectorySize(): Int {
-        return this.files.values.sum() + this.subDirectories.sumOf { it.getDirectorySize() }
+        val fileSize = this.files.values.sum()
+        val recursiveFileSize = this.subDirectories.sumOf { it.getDirectorySize() }
+        return fileSize + recursiveFileSize
     }
 
     fun addFile(filename: String, size: Int) {
