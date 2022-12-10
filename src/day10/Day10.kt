@@ -15,18 +15,14 @@ fun main() {
         }
 
         val valueList = mutableListOf(1)
-        var counter = 0
         var currVal = 1
         for (c in commands) {
             if (c.name == "addx" && c.value != null) {
                 valueList.add(currVal)
-                counter++
                 currVal += c.value
                 valueList.add(currVal)
-                counter++
             } else if (c.name == "noop") {
                 valueList.add(currVal)
-                counter++
             }
         }
         val x20 = valueList[19] * 20
