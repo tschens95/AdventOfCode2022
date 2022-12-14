@@ -1,6 +1,5 @@
 package day11
 
-import readInput
 import readText
 
 fun main() {
